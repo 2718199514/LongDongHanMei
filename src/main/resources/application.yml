@@ -1,0 +1,23 @@
+# 第一个高可用注册中心
+server:
+  port: 8081 # 指定服务中心端口号
+
+# eureka配置
+eureka:
+  instance: 
+    hostname: localhost
+  client:
+    # 是否将eureka自身作为应用注册到eureka注册中心
+    # {这里设置为false，因为eureka服务和client不可能自己监听两套端口，
+    #   serviceUrl可以天其他eureka服务地址，实现高可用} 
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
+    server: 
+      # 自我保护机制; true表示开启, false表示关闭
+      enable-self-preservation: true
+      # 清理服务器
+      eviction-interval-timer-in-ms: 60000
+info: 
+  app.name: eureka-register-service
